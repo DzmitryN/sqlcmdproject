@@ -1,21 +1,31 @@
 package ua.com.juja.jujasqlcmd.Controller;
 
-import ua.com.juja.jujasqlcmd.View.Console;
+
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
-import ua.com.juja.jujasqlcmd.model.InMemoryDatabaseManager;
-import ua.com.juja.jujasqlcmd.model.JDBCDatabaseManager;
+
 
 /**
  * Created by Dima1 on 08.12.2017.
  */
 public class MainController {
-    public static void main(String[] args) {
 
+    private View view;
+    private DatabaseManager manager;
 
-        View view = new Console();
+    public MainController(View view, DatabaseManager manager){
+        this.view=view;
+        this.manager=manager;
+    }
+
+    public void run(){
+        connectToDb();
+    }
+
+    private void connectToDb() {
+        //View view = new Console();
         //DatabaseManager manager = new InMemoryDatabaseManager();
-        DatabaseManager manager = new JDBCDatabaseManager();
+        //DatabaseManager manager = new JDBCDatabaseManager();
         view.write("Привет, дорогой пользователь!");
         while(true) {
             view.write("Введите имя базы данных, имя пользователя и пароль в формате database|userName|password.");
@@ -37,7 +47,5 @@ public class MainController {
             }
         }
         view.write("Connected!");
-
-
     }
 }
