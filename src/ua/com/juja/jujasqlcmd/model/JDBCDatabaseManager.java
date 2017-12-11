@@ -9,9 +9,6 @@ import java.util.Arrays;
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
 
-
-
-
     //SELECT TABLE NAME получение списка данных из таблицы
     @Override
     public DataSet[] getTableData(String tableName){
@@ -87,12 +84,25 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             }
             try {
+                String truedatabase = "jujaproject";
+                String trueUser = "posgres1";
+                String truepassword = "123456";
+                if(!truedatabase.equals(database)){
+                    throw new SQLException("Неверное имя базы данных.");
+                } else if (!trueUser.equals(userName)) {
+
+                    throw new SQLException("Неверное имя пользователя.");
+                }
+                else if(!truepassword.equals(password)){
+                    throw new SQLException("Пароль неверен.");
+                }
+
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/" + database, userName,
                     password);
         } catch (SQLException e) {
                 connection = null;
-                throw new RuntimeException(String.format("Can`t make connection for model: %s, user: %s.", database, userName), e);
+                throw new RuntimeException(String.format("Can`t make connection for database: %s, user: %s.", database, userName), e);
         }
 
     }

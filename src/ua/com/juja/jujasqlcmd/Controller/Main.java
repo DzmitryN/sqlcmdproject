@@ -2,6 +2,7 @@ package ua.com.juja.jujasqlcmd.Controller;
 
 import ua.com.juja.jujasqlcmd.View.Console;
 import ua.com.juja.jujasqlcmd.View.View;
+import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 import ua.com.juja.jujasqlcmd.model.JDBCDatabaseManager;
 

@@ -16,14 +16,9 @@ public class Console implements View {
 
     @Override
     public String read() {
-        try { //Scanner scanner = new Scanner(System.in);
-        BufferedReader reader = new BufferedReader((new InputStreamReader(System.in)));
-        //return scanner.nextLine();
-        return reader.readLine();
-        } catch(IOException e)
-        {
-          e.getLocalizedMessage().toString();
-        }
-        return "";
+       Scanner scanner = new Scanner(System.in);
+
+        return scanner.nextLine();
+
     }
 }
