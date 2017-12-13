@@ -3,6 +3,7 @@ package ua.com.juja.jujasqlcmd.Controller;
 
 import ua.com.juja.jujasqlcmd.Controller.Command.Command;
 import ua.com.juja.jujasqlcmd.Controller.Command.Exit;
+import ua.com.juja.jujasqlcmd.Controller.Command.Help;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
@@ -22,7 +23,7 @@ public class MainController {
     public MainController(View view, DatabaseManager manager){
         this.view=view;
         this.manager=manager;
-        this.commands =new Command[]{new Exit(view)};
+        this.commands =new Command[]{new Exit(view), new Help(view)};
     }
 
     public void run() {
@@ -31,8 +32,8 @@ public class MainController {
         while (true) {
             view.write("Введи команду(или Help для помощи): ");
             String command = view.read();
-            if (command.equals("Help")) {
-                doHelp();
+            if (commands[1].canProcess(command)) {
+                commands[1].process(command);
             } else if (command.equals("List")) {
                 doList();
             } else if (command.startsWith("Find|")) {
@@ -98,7 +99,7 @@ public class MainController {
         view.write(message);
     }
 
-    private void doHelp() {
+    /*private void doHelp() {
         view.write("Существующие команды: ");
         view.write("\tHelp");
         view.write("\t\t для помощи.");
@@ -112,7 +113,7 @@ public class MainController {
         view.write("\tExit");
         view.write("\t\t для выхода из программы.");
     }
-
+*/
     private void connectToDb() {
 
         view.write("Привет, дорогой пользователь!");
