@@ -1,13 +1,13 @@
 package ua.com.juja.jujasqlcmd.Controller;
 
 
+import ua.com.juja.jujasqlcmd.Controller.Command.Command;
+import ua.com.juja.jujasqlcmd.Controller.Command.Exit;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
-
-import static java.lang.System.exit;
 
 
 /**
@@ -17,10 +17,12 @@ public class MainController {
 
     private View view;
     private DatabaseManager manager;
+    private Command [] commands;
 
     public MainController(View view, DatabaseManager manager){
         this.view=view;
         this.manager=manager;
+        this.commands =new Command[]{new Exit(view)};
     }
 
     public void run() {
@@ -35,8 +37,8 @@ public class MainController {
                 doList();
             } else if (command.startsWith("Find|")) {
                 doFind(command);
-            } else if (command.equals("Exit")) {
-                doExit();
+            } else if (commands[0].canProcess(command)) {
+                commands[0].process(command);
             } else {
                 view.write("Введена несуществующая команда: " + command);
             }
@@ -84,10 +86,10 @@ public class MainController {
     }
 
 
-    private void doExit() {
+    /*private void doExit() {
         view.write("Всего хорошего!");
         exit(0);
-    }
+    }*/
 
 
     private void doList() {
