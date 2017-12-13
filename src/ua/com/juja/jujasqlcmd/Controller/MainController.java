@@ -1,9 +1,7 @@
 package ua.com.juja.jujasqlcmd.Controller;
 
 
-import ua.com.juja.jujasqlcmd.Controller.Command.Command;
-import ua.com.juja.jujasqlcmd.Controller.Command.Exit;
-import ua.com.juja.jujasqlcmd.Controller.Command.Help;
+import ua.com.juja.jujasqlcmd.Controller.Command.*;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
@@ -23,7 +21,7 @@ public class MainController {
     public MainController(View view, DatabaseManager manager){
         this.view=view;
         this.manager=manager;
-        this.commands =new Command[]{new Exit(view), new Help(view)};
+        this.commands =new Command[]{new Exit(view), new Help(view), new List(view, manager), new Find(view, manager)};
     }
 
     public void run() {
@@ -34,10 +32,10 @@ public class MainController {
             String command = view.read();
             if (commands[1].canProcess(command)) {
                 commands[1].process(command);
-            } else if (command.equals("List")) {
-                doList();
-            } else if (command.startsWith("Find|")) {
-                doFind(command);
+            } else if (commands[2].canProcess(command)) {
+                commands[2].process(command);
+            } else if (commands[3].canProcess(command)) {
+               commands[3].process(command);
             } else if (commands[0].canProcess(command)) {
                 commands[0].process(command);
             } else {
@@ -46,7 +44,7 @@ public class MainController {
         }
     }
 
-    private void doFind(String command) {
+   /* private void doFind(String command) {
         String [] data = command.split("\\|");
         String tableName = data[1];
 
@@ -84,7 +82,7 @@ public class MainController {
             result += name +"|";
         }
       view.write(result);
-    }
+    }*/
 
 
     /*private void doExit() {
@@ -93,11 +91,11 @@ public class MainController {
     }*/
 
 
-    private void doList() {
+  /*  private void doList() {
         String [] list = manager.getTableNames();
         String message = Arrays.toString(list);
         view.write(message);
-    }
+    }*/
 
     /*private void doHelp() {
         view.write("Существующие команды: ");
