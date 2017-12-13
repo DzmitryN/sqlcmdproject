@@ -3,7 +3,7 @@ package ua.com.juja.jujasqlcmd.Controller;
 
 import ua.com.juja.jujasqlcmd.Controller.Command.*;
 import ua.com.juja.jujasqlcmd.View.View;
-import ua.com.juja.jujasqlcmd.model.DataSet;
+//import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
@@ -21,7 +21,8 @@ public class MainController {
     public MainController(View view, DatabaseManager manager){
         this.view=view;
         this.manager=manager;
-        this.commands =new Command[]{new Exit(view), new Help(view), new List(view, manager), new Find(view, manager)};
+        this.commands = new Command[]{new Exit(view), new Help(view), new List(view, manager), new Find(view, manager),
+                new Unsupported(view)};
     }
 
     public void run() {
@@ -29,21 +30,71 @@ public class MainController {
 
         while (true) {
             view.write("Введи команду(или Help для помощи): ");
-            String command = view.read();
-            if (commands[1].canProcess(command)) {
-                commands[1].process(command);
-            } else if (commands[2].canProcess(command)) {
+            String input = view.read();
+
+            for (Command result : commands) {
+                if (result.canProcess(input)) {
+                    result.process(input);
+                    break;
+                }
+            }
+            //break;
+        }
+    }
+           /* } else if (commands[2].canProcess(command)) {
                 commands[2].process(command);
             } else if (commands[3].canProcess(command)) {
                commands[3].process(command);
             } else if (commands[0].canProcess(command)) {
                 commands[0].process(command);
-            } else {
-                view.write("Введена несуществующая команда: " + command);
+            }
+
+                view.write("Введена несуществующая команда: " + input);
+
+        }*/
+
+    private void connectToDb() {
+
+        view.write("Привет, дорогой пользователь!");
+        while(true) {
+            try {
+                view.write("Введите имя базы данных, имя пользователя и пароль в формате database|userName|password.");
+                String info = view.read();
+                String[] data = info.split("[|]");
+                if(data.length !=3){
+                    throw new IllegalArgumentException("Неверно количество параметров, разделенных символом |, количество должно быть 3, " +
+                            "вы ввели: "+ data.length + ".");
+
+                }
+                String database = data[0];
+                String userName = data[1];
+                String password = data[2];
+
+                manager.connect(database, userName, password);
+                break;
+
+            } catch (Exception e) {
+                printError(e);
+
+
             }
         }
+        view.write("Connected!");
     }
 
+    private void printError(Exception e) {
+
+        String message =e.getMessage();
+
+        if(e.getCause() != null) {
+            message += " " + e.getCause().getMessage();
+        }
+        else {
+
+        }
+        view.write("Подключение невозможно по причине: " + message);
+        view.write("Повторите попытку.");
+    }
    /* private void doFind(String command) {
         String [] data = command.split("\\|");
         String tableName = data[1];
@@ -112,47 +163,6 @@ public class MainController {
         view.write("\t\t для выхода из программы.");
     }
 */
-    private void connectToDb() {
 
-        view.write("Привет, дорогой пользователь!");
-        while(true) {
-          try {
-            view.write("Введите имя базы данных, имя пользователя и пароль в формате database|userName|password.");
-            String info = view.read();
-            String[] data = info.split("[|]");
-                if(data.length !=3){
-                throw new IllegalArgumentException("Неверно количество параметров, разделенных символом |, количество должно быть 3, " +
-                        "вы ввели: "+ data.length + ".");
-
-                }
-            String database = data[0];
-            String userName = data[1];
-            String password = data[2];
-
-            manager.connect(database, userName, password);
-            break;
-
-          } catch (Exception e) {
-              printError(e);
-
-
-            }
-        }
-        view.write("Connected!");
-    }
-
-    private void printError(Exception e) {
-
-        String message =e.getMessage();
-
-        if(e.getCause() != null) {
-            message += " " + e.getCause().getMessage();
-        }
-        else {
-
-        }
-            view.write("Подключение невозможно по причине: " + message);
-            view.write("Повторите попытку.");
-    }
 }
 
