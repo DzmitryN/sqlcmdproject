@@ -1,5 +1,6 @@
 package ua.com.juja.jujasqlcmd.Controller.Command;
 
+import org.postgresql.util.PSQLException;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
@@ -26,12 +27,12 @@ public class Find implements Command{
     public void process(String command) {
         String [] data = command.split("\\|");
         String tableName = data[1];
+            String[] tableColumns = manager.getTableColumns(tableName);
+            printHeader(tableColumns);
 
-        String [] tableColumns=manager.getTableColumns(tableName);
-        printHeader(tableColumns);
+            DataSet[] tableData = manager.getTableData(tableName);
+            printTable(tableData);
 
-        DataSet[] tableData = manager.getTableData(tableName);
-        printTable(tableData);
 
 
     }

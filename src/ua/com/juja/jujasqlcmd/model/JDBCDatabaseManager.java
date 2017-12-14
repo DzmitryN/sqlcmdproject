@@ -1,5 +1,7 @@
 package ua.com.juja.jujasqlcmd.model;
 
+import ua.com.juja.jujasqlcmd.View.View;
+
 import java.sql.*;
 import java.util.Arrays;
 
@@ -42,11 +44,20 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
      private int getSize(String tableName) throws SQLException {
         Statement stmt = connection.createStatement();
-        ResultSet rscount = stmt.executeQuery("SELECT COUNT (*) FROM public." + tableName );
-        rscount.next();
-        int size = rscount.getInt(1);
-        rscount.close();
-        return size;
+
+        try {
+            ResultSet rscount= stmt.executeQuery("SELECT COUNT (*) FROM public." + tableName);
+            rscount.next();
+            int size = rscount.getInt(1);
+            rscount.close();
+            return size;
+        }catch(SQLException e){
+
+            System.out.println(e.getMessage() + "\n"+(String.format("Введенное имя '%s' не является именем базы данных."+
+                    " ", tableName)));
+            stmt.close();
+            return 0;
+            }
     }
 
 
@@ -84,7 +95,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             }
             try {
-                String truedatabase = "jujaproject";
+                /*String truedatabase = "jujaproject";
                 String trueUser = "posgres1";
                 String truepassword = "123456";
                 if(!truedatabase.equals(database)){
@@ -95,7 +106,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 }
                 else if(!truepassword.equals(password)){
                     throw new SQLException("Пароль неверен.");
-                }
+                }*/
 
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/" + database, userName,
@@ -195,6 +206,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public boolean isConnected(String command) {
+        return connection!=null;
     }
 
     private String getFormatted(DataSet newValue, String format) {

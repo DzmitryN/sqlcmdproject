@@ -24,6 +24,9 @@ public class Help implements Command {
         view.write("\tHelp");
         view.write("\t\t для помощи.");
 
+        view.write("\tConnect|database|userName|password");
+        view.write("\t\t для подключения к существующей базе данных.");
+
         view.write("\tList");
         view.write("\t\t для получения списка всех таблиц базы.");
 

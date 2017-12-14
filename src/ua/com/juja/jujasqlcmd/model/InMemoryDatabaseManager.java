@@ -1,5 +1,7 @@
 package ua.com.juja.jujasqlcmd.model;
 
+import ua.com.juja.jujasqlcmd.View.View;
+
 import java.util.Arrays;
 
 /**
@@ -63,5 +65,10 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     @Override
     public String[] getTableColumns(String tableName) {
          return new String [] {"id", "name", "password" };
+    }
+
+    @Override
+    public boolean isConnected(String command) {
+        return true;
     }
 }

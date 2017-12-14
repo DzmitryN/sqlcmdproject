@@ -1,5 +1,7 @@
 package ua.com.juja.jujasqlcmd.model;
 
+import ua.com.juja.jujasqlcmd.View.View;
+
 /**
  * Created by Dima1 on 06.12.2017.
  */
@@ -24,4 +26,6 @@ public interface DatabaseManager {
     void update(String tableName, int id, DataSet newValue);
 
     String[] getTableColumns(String tableName);
+
+    boolean isConnected(String command);
 }

@@ -6,8 +6,6 @@ import ua.com.juja.jujasqlcmd.View.View;
 //import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-import java.util.Arrays;
-
 
 /**
  * Created by Dima1 on 08.12.2017.
@@ -21,12 +19,20 @@ public class MainController {
     public MainController(View view, DatabaseManager manager){
         this.view=view;
         this.manager=manager;
-        this.commands = new Command[]{new Exit(view), new Help(view), new List(view, manager), new Find(view, manager),
+        this.commands = new Command[]{
+                new Connect(view, manager),
+                new Help(view),
+                new Exit(view),
+                new isConnected(view,manager),
+                new List(view, manager),
+                new Find(view, manager),
                 new Unsupported(view)};
     }
 
     public void run() {
-        connectToDb();
+        view.write("Привет, дорогой пользователь!");
+
+        //connectToDb();
 
         while (true) {
             view.write("Введи команду(или Help для помощи): ");
@@ -53,22 +59,22 @@ public class MainController {
 
         }*/
 
-    private void connectToDb() {
+   /* private void connectToDb() {
 
-        view.write("Привет, дорогой пользователь!");
+
         while(true) {
             try {
-                view.write("Введите имя базы данных, имя пользователя и пароль в формате database|userName|password.");
+                view.write("Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.");
                 String info = view.read();
                 String[] data = info.split("[|]");
-                if(data.length !=3){
-                    throw new IllegalArgumentException("Неверно количество параметров, разделенных символом |, количество должно быть 3, " +
-                            "вы ввели: "+ data.length + ".");
+                if(data.length !=4){
+                    throw new IllegalArgumentException("Неверно количество параметров, разделенных символом |, количество" +
+                            " должно быть 4, вы ввели: "+ data.length + ".");
 
                 }
-                String database = data[0];
-                String userName = data[1];
-                String password = data[2];
+                String database = data[1];
+                String userName = data[2];
+                String password = data[3];
 
                 manager.connect(database, userName, password);
                 break;
@@ -94,7 +100,7 @@ public class MainController {
         }
         view.write("Подключение невозможно по причине: " + message);
         view.write("Повторите попытку.");
-    }
+    }*/
    /* private void doFind(String command) {
         String [] data = command.split("\\|");
         String tableName = data[1];
