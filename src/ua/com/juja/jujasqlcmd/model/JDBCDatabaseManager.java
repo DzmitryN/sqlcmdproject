@@ -95,7 +95,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             }
             try {
-                /*String truedatabase = "jujaproject";
+                String truedatabase = "jujaproject";
                 String trueUser = "posgres1";
                 String truepassword = "123456";
                 if(!truedatabase.equals(database)){
@@ -106,7 +106,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 }
                 else if(!truepassword.equals(password)){
                     throw new SQLException("Пароль неверен.");
-                }*/
+                }
 
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/" + database, userName,

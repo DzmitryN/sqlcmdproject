@@ -6,6 +6,7 @@ import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 public class Connect implements Command {
 
+    private static String COMMAND_SAMPLE = "Connect|jujaproject|posgres1|123456";
     private View view;
     private DatabaseManager manager;
 
@@ -26,9 +27,9 @@ public class Connect implements Command {
                 /*view.write("Введите имя базы данных, имя пользователя и пароль в формате Connect|database|userName|password.");
                 String info = view.read();*/
                 String[] data = command.split("[|]");
-                if(data.length !=4){
+                if(data.length != countLength()){
                     throw new IllegalArgumentException("Неверно количество параметров, разделенных символом |, количество" +
-                            " должно быть 4, вы ввели: "+ data.length + ".");
+                            " должно быть %s, вы ввели: %s"+ countLength() + data.length + ".");
 
                 }
                 String database = data[1];
@@ -46,6 +47,10 @@ public class Connect implements Command {
             }
         //}
 
+    }
+
+    public int countLength() {
+        return COMMAND_SAMPLE.split("\\|").length;
     }
 
     private void printError(Exception e) {
