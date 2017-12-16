@@ -31,21 +31,27 @@ public class MainController {
 
     public void run() {
         view.write("Привет, дорогой пользователь!");
-
+        view.write("Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.");
         //connectToDb();
+    try {
+        doWork();
+        } catch(ExitException e){
+          //doNothing
+        }
+    }
 
+    public void doWork() {
         while (true) {
-            view.write("Введи команду(или Help для помощи): ");
             String input = view.read();
-
             for (Command result : commands) {
                 if (result.canProcess(input)) {
                     result.process(input);
                     break;
                 }
             }
+            view.write("Введи команду(или Help для помощи): ");
             //break;
-        }
+            }
     }
            /* } else if (commands[2].canProcess(command)) {
                 commands[2].process(command);
@@ -64,7 +70,7 @@ public class MainController {
 
         while(true) {
             try {
-                view.write("Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.");
+
                 String info = view.read();
                 String[] data = info.split("[|]");
                 if(data.length !=4){

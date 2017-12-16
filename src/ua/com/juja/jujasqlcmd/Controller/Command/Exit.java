@@ -1,7 +1,6 @@
 package ua.com.juja.jujasqlcmd.Controller.Command;
 
 import ua.com.juja.jujasqlcmd.View.View;
-import static java.lang.System.exit;
 
 /**
  * Created by Dima1 on 13.12.2017.
@@ -24,7 +23,8 @@ public class Exit implements Command {
     @Override
     public void process(String command) {
         view.write("Всего хорошего!");
-        exit(0);
+        //exit(0);
+        throw new ExitException();
 
     }
 }
