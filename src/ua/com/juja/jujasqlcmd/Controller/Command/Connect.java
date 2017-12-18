@@ -23,8 +23,7 @@ public class Connect implements Command {
     @Override
     public void process(String command) {
        // while(true) {
-            try {
-                /*view.write("Введите имя базы данных, имя пользователя и пароль в формате Connect|database|userName|password.");
+              /*view.write("Введите имя базы данных, имя пользователя и пароль в формате Connect|database|userName|password.");
                 String info = view.read();*/
                 String[] data = command.split("[|]");
                 if(data.length != countLength()){
@@ -40,11 +39,7 @@ public class Connect implements Command {
                 view.write("Connected!");
                // break;
 
-            } catch (Exception e) {
-                printError(e);
 
-
-            }
         //}
 
     }
@@ -53,19 +48,6 @@ public class Connect implements Command {
         return COMMAND_SAMPLE.split("\\|").length;
     }
 
-    private void printError(Exception e) {
-
-        String message =e.getMessage();
-
-        if(e.getCause() != null) {
-            message += " " + e.getCause().getMessage();
-        }
-        else {
-
-        }
-        view.write("Подключение невозможно по причине: " + message);
-        view.write("Повторите попытку.");
-    }
 
     }
 

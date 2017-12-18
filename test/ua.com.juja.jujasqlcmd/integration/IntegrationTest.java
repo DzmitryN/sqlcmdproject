@@ -250,7 +250,7 @@ public class IntegrationTest {
         //then
         assertEquals("Привет, дорогой пользователь!\r\n" +
                 "Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.\r\n" +
-                "Подключение невозможно по причине: Неверно количество параметров, разделенных символом |, количество должно быть 4, вы ввели: 2.\r\n" +
+                "Подключение невозможно по причине: Неверно количество параметров, разделенных символом |, количество должно быть 4, вы ввели: 2. \r\n" +
                 "Повторите попытку.\r\n" +
                 "Введи команду(или Help для помощи): \r\n" +
                 "Всего хорошего!\r\n", getData());
@@ -264,6 +264,7 @@ public class IntegrationTest {
         in.add("Create|user|id|13|name|Stiven|password|*****");
         in.add("Create|user|id|14|name|Eva|password|+++++");
         in.add("Find|user");
+        in.add("Clear|user");
         in.add("Exit");
         //when
         Main.main(new String[0]);
@@ -284,6 +285,49 @@ public class IntegrationTest {
                 "|id|name|password|\r\n" +
                 "|13|Stiven|*****|\r\n" +
                 "|14|Eva|+++++|\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Таблица user была успешно очищена!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Всего хорошего!\r\n", getData());
+    }
+
+    @Test
+    public void testClearWithError(){
+        //given
+        in.add("Connect|jujaproject|posgres1|123456");
+        in.add("Clear|jklj|jklj|JKLJ");
+        in.add("Exit");
+        //when
+        Main.main(new String[0]);
+        //then
+        assertEquals("Привет, дорогой пользователь!\r\n" +
+                "Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.\r\n" +
+                "Connected!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Подключение невозможно по причине: Формат команды 'Clear|tableName', а было введено Clear|jklj|jklj|JKLJ \r\n" +
+                "Повторите попытку.\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Всего хорошего!\r\n", getData());
+
+
+    }
+
+    @Test
+    public void testCreateWithError() {
+        //given
+        in.add("Connect|jujaproject|posgres1|123456");
+        in.add("Create|user|Eword|");
+        in.add("Exit");
+        //when
+        Main.main(new String[0]);
+        //then
+        assertEquals("Привет, дорогой пользователь!\r\n" +
+                "Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.\r\n" +
+                "Connected!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Подключение невозможно по причине: Количество параметров должно быть четным! Формат запроса должен быть" +
+                " 'Create|tableName|column1|value1|column2|value2....columnN|valueN', а ты ввел 'Create|user|Eword|' \r\n" +
+                "Повторите попытку.\r\n" +
                 "Введи команду(или Help для помощи): \r\n" +
                 "Всего хорошего!\r\n", getData());
     }

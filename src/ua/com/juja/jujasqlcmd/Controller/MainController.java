@@ -45,15 +45,43 @@ public class MainController {
     public void doWork() {
         while (true) {
             String input = view.read();
+            if(input==null){
+                new Exit(view).process(input);
+                break;
+            }
+
             for (Command result : commands) {
                 if (result.canProcess(input)) {
-                    result.process(input);
-                    break;
+                    try {
+                        result.process(input);
+                        break;
+                    } catch (Exception e) {
+                        if (e instanceof ExitException) {
+                            throw e;}
+                        printError(e);
+
+                        break;
+                    }
+
                 }
             }
             view.write("Введи команду(или Help для помощи): ");
             //break;
+        }
+    }
+        private void printError(Exception e) {
+
+            String message =e.getMessage();
+            //Throwable cause = e.getCause();
+            if(e.getCause() != null) {
+                message += " " + e.getCause().getMessage();
             }
+            else {
+                message+=" ";
+            }
+            view.write("Подключение невозможно по причине: " + message);
+            view.write("Повторите попытку.");
+        }
     }
            /* } else if (commands[2].canProcess(command)) {
                 commands[2].process(command);
@@ -178,5 +206,5 @@ public class MainController {
     }
 */
 
-}
+
 
