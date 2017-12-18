@@ -90,6 +90,10 @@ public class IntegrationTest {
                 "\t\t для подключения к существующей базе данных.\r\n" +
                 "\tList\r\n" +
                 "\t\t для получения списка всех таблиц базы.\r\n" +
+                "\tClear|tableName\r\n" +
+                "\t\t для очистки всей таблицы.\r\n" +
+                "\tCreate|tableName|column1|value1|column2|value2....columnN|valueN\r\n" +
+                "\t\t для создания записи в таблицы.\r\n" +
                 "\tFind|tableName\r\n" +
                 "\t\t для получения содержимого таблицы 'tableName'\r\n" +
                 "\tExit\r\n" +
@@ -204,9 +208,6 @@ public class IntegrationTest {
                 "Connected!\r\n" +
                 "Введи команду(или Help для помощи): \r\n" +
                 "|id|name|password|\r\n" +
-                "|12|vova|1159|\r\n" +
-                "|1|sasa|1147|\r\n" +
-                "|2|asd|456|\r\n" +
                 "Введи команду(или Help для помощи): \r\n" +
                 "Всего хорошего!\r\n", getData());
     }
@@ -238,5 +239,52 @@ public class IntegrationTest {
                 "Всего хорошего!\r\n", getData());
     }
 
+    @Test
+    public void testConnectWithError(){
+        //given
+        in.add("Connect|jujaproject");
+        in.add("Exit");
+        //when
+        Main.main(new String [0]);
 
+        //then
+        assertEquals("Привет, дорогой пользователь!\r\n" +
+                "Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.\r\n" +
+                "Подключение невозможно по причине: Неверно количество параметров, разделенных символом |, количество должно быть 4, вы ввели: 2.\r\n" +
+                "Повторите попытку.\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Всего хорошего!\r\n", getData());
+    }
+
+    @Test
+    public void testFindAfterConnect_withData(){
+        //given
+        in.add("Connect|jujaproject|posgres1|123456");
+        in.add("Clear|user");
+        in.add("Create|user|id|13|name|Stiven|password|*****");
+        in.add("Create|user|id|14|name|Eva|password|+++++");
+        in.add("Find|user");
+        in.add("Exit");
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, дорогой пользователь!\r\n" +
+                "Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.\r\n" +
+                "Connected!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Таблица user была успешно очищена!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "\n" +
+                "Запись {name=[id, name, password], value=[13, Stiven, *****]} в таблице user была успешно создана!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "\n" +
+                "Запись {name=[id, name, password], value=[14, Eva, +++++]} в таблице user была успешно создана!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "|id|name|password|\r\n" +
+                "|13|Stiven|*****|\r\n" +
+                "|14|Eva|+++++|\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Всего хорошего!\r\n", getData());
+    }
 }

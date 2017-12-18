@@ -30,6 +30,12 @@ public class Help implements Command {
         view.write("\tList");
         view.write("\t\t для получения списка всех таблиц базы.");
 
+        view.write("\tClear|tableName");//TODO double check asking user
+        view.write("\t\t для очистки всей таблицы.");
+
+        view.write("\tCreate|tableName|column1|value1|column2|value2....columnN|valueN");
+        view.write("\t\t для создания записи в таблицы.");
+
         view.write("\tFind|tableName");
         view.write("\t\t для получения содержимого таблицы 'tableName'");
 

@@ -28,8 +28,8 @@ public class Connect implements Command {
                 String info = view.read();*/
                 String[] data = command.split("[|]");
                 if(data.length != countLength()){
-                    throw new IllegalArgumentException("Неверно количество параметров, разделенных символом |, количество" +
-                            " должно быть %s, вы ввели: %s"+ countLength() + data.length + ".");
+                    throw new IllegalArgumentException(String.format("Неверно количество параметров, разделенных символом |, количество" +
+                            " должно быть %s, вы ввели: %s", countLength(), data.length + "."));
 
                 }
                 String database = data[1];

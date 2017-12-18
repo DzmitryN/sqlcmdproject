@@ -24,6 +24,8 @@ public class MainController {
                 new Help(view),
                 new Exit(view),
                 new isConnected(view,manager),
+                new Clear(view, manager),
+                new Create(view, manager),
                 new List(view, manager),
                 new Find(view, manager),
                 new Unsupported(view)};

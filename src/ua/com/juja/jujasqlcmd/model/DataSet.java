@@ -75,10 +75,10 @@ public static class Data{
     @Override
     public String toString() {
         System.out.print("\n");
-        return "DataSet " +
+        return /*"DataSet " +*/
 
-                "name=" + Arrays.toString(getNames()) +" "+
-                "value=" + Arrays.toString(getValues());
+                "{"+"name=" + Arrays.toString(getNames()) +", "+
+                "value=" + Arrays.toString(getValues())+"}";
 
     }
 }
