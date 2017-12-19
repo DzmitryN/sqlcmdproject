@@ -14,12 +14,12 @@ public class JDBCDatabaseManager implements DatabaseManager {
     //SELECT TABLE NAME получение списка данных из таблицы
     @Override
     public DataSet[] getTableData(String tableName){
-        try {
+
+
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
+        {
             int size = getSize(tableName);
-
-
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName);
             ResultSetMetaData rsmd = rs.getMetaData();
 
             DataSet[] result = new DataSet[size];
@@ -32,8 +32,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
                 }
             }
 
-            rs.close();
-            stmt.close();
             return result;
         }
         catch(SQLException e){
@@ -43,19 +41,19 @@ public class JDBCDatabaseManager implements DatabaseManager {
     }
 
      private int getSize(String tableName) throws SQLException {
-        Statement stmt = connection.createStatement();
 
-        try {
-            ResultSet rscount= stmt.executeQuery("SELECT COUNT (*) FROM public." + tableName);
-            rscount.next();
-            int size = rscount.getInt(1);
-            rscount.close();
-            return size;
+        try (Statement stmt = connection.createStatement();
+        ResultSet rscount= stmt.executeQuery("SELECT COUNT (*) FROM public." + tableName))
+        {
+        rscount.next();
+        int size = rscount.getInt(1);
+        return size;
+
         }catch(SQLException e){
 
             System.out.println(e.getMessage() + "\n"+(String.format("Введенное имя '%s' не является именем базы данных."+
                     " ", tableName)));
-            stmt.close();
+
             return 0;
             }
     }
@@ -64,11 +62,12 @@ public class JDBCDatabaseManager implements DatabaseManager {
     // SELECT LIST TABLES получаем имена таблиц базы
     @Override
     public String[] getTableNames(){
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("/*SELECT * FROM public.user WHERE id>2*/" +
-                    "SELECT table_name FROM information_schema.tables\n"
-                    + "        WHERE table_schema = 'public' AND table_type = 'BASE TABLE'");
+        try ( Statement stmt = connection.createStatement();
+              ResultSet rs = stmt.executeQuery("/*SELECT * FROM public.user WHERE id>2*/" +
+                      "SELECT table_name FROM information_schema.tables\n"
+                      + "        WHERE table_schema = 'public' AND table_type = 'BASE TABLE'"))
+        {
+
             String tables[] = new String[100];
             int index = 0;
             while (rs.next()) {
@@ -108,6 +107,9 @@ public class JDBCDatabaseManager implements DatabaseManager {
                     throw new SQLException("Пароль неверен.");
                 }
 */
+               if(connection!=null){
+                   connection.close();
+               }
             connection = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/" + database, userName,
                     password);
@@ -122,12 +124,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
     @Override
     public void clear(String tableName) {
 
-        try {
-            Statement stmt = connection.createStatement();
+        try (Statement stmt = connection.createStatement()){
+
             stmt.executeUpdate("DELETE FROM public." + tableName);
 
-            stmt.close();
-        }catch(SQLException e){
+            }catch(SQLException e){
             e.printStackTrace();
         }
 
@@ -135,19 +136,16 @@ public class JDBCDatabaseManager implements DatabaseManager {
 //INSERT TO DATABASE создание записи----------------------------------------------------------------------------------------------------------------
     @Override
     public void create(String tableName, DataSet input) {
-        try{
-            String tableNames = getFormatted(input, "%s,");
 
-            String  values = getNamesFormatted(input, "'%s',");
+        String tableNames = getFormatted(input, "%s,");
+        String  values = getNamesFormatted(input, "'%s',");
+            try(Statement ps = connection.createStatement()){
 
-            Statement ps = connection.createStatement();
-            ps.executeUpdate("INSERT INTO public." + tableName + "("+ tableNames + ")" +
+                ps.executeUpdate("INSERT INTO public." + tableName + "("+ tableNames + ")" +
                     "VALUES(" + values +")");
-            ps.close();
 
-        }catch (Exception e){
-            e.printStackTrace();
-
+            }catch (Exception e){
+                e.printStackTrace();
         }
     }
 
@@ -164,11 +162,11 @@ public class JDBCDatabaseManager implements DatabaseManager {
     //UPDATE DATA TABLE апдейт записи
    @Override
    public void update(String tableName, int id, DataSet newValue) {
-        try{
-            String tableNames = getFormatted(newValue, "%s=?,");
 
-            PreparedStatement ps = connection.prepareStatement("UPDATE public." + tableName+" SET "+ tableNames
-                    + " WHERE id=?");
+            String tableNames = getFormatted(newValue, "%s=?,");
+            String sql = "UPDATE public." + tableName+" SET "+ tableNames
+                    + " WHERE id=?";
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
 
             int index = 1;
             for(Object value : newValue.getValues()){
@@ -177,7 +175,6 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             ps.setInt(index, id);
             ps.executeUpdate();
-            ps.close();
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -187,13 +184,13 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     @Override
     public String[] getTableColumns(String tableName) {
-        try {
-            Statement stmt = connection.createStatement();
-            /*ResultSet rs = stmt.executeQuery("*//*SELECT * FROM public.user WHERE id>2*//*" +
+        try(Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT *  FROM information_schema.columns" +
+                " WHERE table_schema = 'public' AND table_name = '" + tableName +"'"))
+        {
+                        /*ResultSet rs = stmt.executeQuery("*//*SELECT * FROM public.user WHERE id>2*//*" +
                     "SELECT table_name FROM information_schema.tables\n"
                     + "        WHERE table_schema = 'public' AND table_type = 'BASE TABLE'");*/
-            ResultSet rs = stmt.executeQuery( "SELECT *  FROM information_schema.columns" +
-                    " WHERE table_schema = 'public' AND table_name = '" + tableName +"'");
+
             String tables[] = new String[100];
             int index = 0;
             while (rs.next()) {
