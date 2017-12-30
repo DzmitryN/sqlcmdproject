@@ -3,20 +3,16 @@ package controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mockito;
 import ua.com.juja.jujasqlcmd.Controller.Command.Command;
 import ua.com.juja.jujasqlcmd.Controller.Command.Find;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
-
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Dima1 on 31.12.2017.
- */
 public class FindTest {
 
     private DatabaseManager manager;
@@ -30,7 +26,7 @@ public class FindTest {
 
 
     @Test
-    public void test(){
+    public void testPrintTableData(){
         //given
         Command command = new Find(view, manager);
         //when
@@ -55,6 +51,59 @@ public class FindTest {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()/*times(3)*/).write(captor.capture());
         assertEquals("[|id|name|password|, |80|Richard|333333|, |70|Ricko|000000|]", captor.getAllValues().toString());
+
+        }
+        @Test
+        public void testCanProcessFindWithParameteresString(){
+
+            //given
+            Command command = new Find(view, manager);
+            //when
+            boolean canProcess = command.canProcess("Find|user");
+            //then
+            assertTrue(canProcess);
+
+        }
+        @Test
+        public void testCantProcessFindWithoutParameteresString(){
+
+            //given
+            Command command = new Find(view, manager);
+            //when
+            boolean canProcess = command.canProcess("Find");
+            //then
+            assertFalse(canProcess);
+
+    }
+    @Test
+    public void testCantProcessFindWithOPRTString(){
+
+        //given
+        Command command = new Find(view, manager);
+        //when
+        boolean canProcess = command.canProcess("OPRT|user");
+        //then
+        assertFalse(canProcess);
+
+    }
+
+    @Test
+    public void testPrintEmptyData(){
+        //given
+        Command command = new Find(view, manager);
+        //when
+        when(manager.getTableColumns("user")).thenReturn(new String []{"id", "name", "password"});
+
+
+        DataSet[] data = new DataSet[0];
+        when(manager.getTableData("user")).thenReturn(data);
+
+        command.process("Find|user");
+        //then
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(view, atLeastOnce()/*times(3)*/).write(captor.capture());
+        assertEquals("[|id|name|password|]", captor.getAllValues().toString());
 
     }
 }
