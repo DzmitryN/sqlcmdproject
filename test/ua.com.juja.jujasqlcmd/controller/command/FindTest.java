@@ -17,18 +17,20 @@ public class FindTest {
 
     private DatabaseManager manager;
     private View view;
+    private Command command;
 
    @Before
    public void setup(){
        manager = mock(DatabaseManager.class);
        view = mock(View.class);
+       command = new Find(view, manager);
    }
 
 
     @Test
     public void testPrintTableData(){
         //given
-        Command command = new Find(view, manager);
+
         //when
         when(manager.getTableColumns("user")).thenReturn(new String []{"id", "name", "password"});
 
@@ -48,16 +50,22 @@ public class FindTest {
         command.process("Find|user");
         //then
 
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(view, atLeastOnce()/*times(3)*/).write(captor.capture());
-        assertEquals("[|id|name|password|, |80|Richard|333333|, |70|Ricko|000000|]", captor.getAllValues().toString());
+        String expected = "[|id|name|password|, |80|Richard|333333|, |70|Ricko|000000|]";
+        expectedOnPrint(expected);
 
         }
-        @Test
+
+    public void expectedOnPrint(String expected) {
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(view, atLeastOnce()/*times(3)*/).write(captor.capture());
+        assertEquals(expected, captor.getAllValues().toString());
+    }
+
+    @Test
         public void testCanProcessFindWithParameteresString(){
 
             //given
-            Command command = new Find(view, manager);
+
             //when
             boolean canProcess = command.canProcess("Find|user");
             //then
@@ -68,7 +76,7 @@ public class FindTest {
         public void testCantProcessFindWithoutParameteresString(){
 
             //given
-            Command command = new Find(view, manager);
+
             //when
             boolean canProcess = command.canProcess("Find");
             //then
@@ -79,8 +87,7 @@ public class FindTest {
     public void testCantProcessFindWithOPRTString(){
 
         //given
-        Command command = new Find(view, manager);
-        //when
+         //when
         boolean canProcess = command.canProcess("OPRT|user");
         //then
         assertFalse(canProcess);
@@ -90,7 +97,7 @@ public class FindTest {
     @Test
     public void testPrintEmptyData(){
         //given
-        Command command = new Find(view, manager);
+
         //when
         when(manager.getTableColumns("user")).thenReturn(new String []{"id", "name", "password"});
 
@@ -101,9 +108,8 @@ public class FindTest {
         command.process("Find|user");
         //then
 
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(view, atLeastOnce()/*times(3)*/).write(captor.capture());
-        assertEquals("[|id|name|password|]", captor.getAllValues().toString());
+        String expected = "[|id|name|password|]";
+        expectedOnPrint(expected);
 
     }
 }
