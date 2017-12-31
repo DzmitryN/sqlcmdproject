@@ -1,4 +1,4 @@
-package controller.command;
+package testcontroller.command;
 
 import org.junit.Test;
 import ua.com.juja.jujasqlcmd.Controller.Command.Command;
