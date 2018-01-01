@@ -55,7 +55,7 @@ public class FindTest {
 
         }
 
-    public void expectedOnPrint(String expected) {
+    private void expectedOnPrint(String expected) {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()/*times(3)*/).write(captor.capture());
         assertEquals(expected, captor.getAllValues().toString());
@@ -63,8 +63,6 @@ public class FindTest {
 
     @Test
         public void testCanProcessFindWithParameteresString(){
-
-            //given
 
             //when
             boolean canProcess = command.canProcess("Find|user");

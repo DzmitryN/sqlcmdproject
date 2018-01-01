@@ -1,13 +1,11 @@
 package ua.com.juja.jujasqlcmd.Controller.Command;
 
-import org.postgresql.util.PSQLException;
+
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-/**
- * Created by Dima1 on 13.12.2017.
- */
+
 public class Find implements Command{
 
     private View view;

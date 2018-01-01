@@ -5,9 +5,7 @@ import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
 
-/**
- * Created by Dima1 on 13.12.2017.
- */
+
 public class List implements Command{
 
     private View view;
