@@ -4,9 +4,6 @@ import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-/**
- * Created by Dima1 on 17.12.2017.
- */
 public class Create implements Command {
     private View view;
     private DatabaseManager manager;
