@@ -1,12 +1,10 @@
 package ua.com.juja.jujasqlcmd.Controller.Command;
 
-import ua.com.juja.jujasqlcmd.Controller.Command.Command;
+
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-/**
- * Created by Dima1 on 13.12.2017.
- */
+
 public class isConnected implements Command {
 
     private View view;

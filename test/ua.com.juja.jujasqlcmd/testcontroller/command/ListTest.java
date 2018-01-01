@@ -3,13 +3,10 @@ package testcontroller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import ua.com.juja.jujasqlcmd.Controller.Command.Command;
 import ua.com.juja.jujasqlcmd.Controller.Command.List;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
-
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -33,8 +30,8 @@ public class ListTest {
         String [] data = new String[] {"user", "test"};
         when(manager.getTableNames()).thenReturn(data);
         command.process("List");
-        String expected = "user, test";
-        assertEquals("user, test", expected);
+        String expected = "[user, test]";
+        verify(view).write(expected);
     }
 
 
