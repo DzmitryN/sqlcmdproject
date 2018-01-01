@@ -3,13 +3,8 @@ package ua.com.juja.jujasqlcmd.Controller;
 
 import ua.com.juja.jujasqlcmd.Controller.Command.*;
 import ua.com.juja.jujasqlcmd.View.View;
-//import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-
-/**
- * Created by Dima1 on 08.12.2017.
- */
 public class MainController {
 
     private View view;
