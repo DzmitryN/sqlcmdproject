@@ -31,13 +31,17 @@ public class CreateTest {
 
     @Test
     public void canProcessCreateWithParameters(){
+        //when
         boolean canProcess = command.canProcess("Create|");
+        //then
         assertTrue(canProcess);
     }
 
     @Test
     public void canProcessCreateWithWrongParameters(){
+        //when
         boolean canProcess = command.canProcess("Crea|");
+        //then
         assertFalse(canProcess);
     }
 
@@ -45,9 +49,11 @@ public class CreateTest {
     public void cantProcessWithError_NotEvenParameteres(){
 
         try {
+            //when
             command.process("Create|itor|trtr");
             fail();
         }catch (IllegalArgumentException e){
+            //then
             assertEquals("Количество параметров должно быть четным! Формат запроса должен быть " +
                     "'Create|tableName|column1|value1|column2|value2....columnN|valueN', а ты ввел 'Create|itor|trtr'", "Количество параметров должно быть четным! Формат запроса должен быть " +
                     "'Create|tableName|column1|value1|column2|value2....columnN|valueN', а ты ввел 'Create|itor|trtr'");
@@ -56,6 +62,7 @@ public class CreateTest {
 
     @Test
     public void processCreatewithParameteres(){
+            //given
                 String string = "Create|Users|id|12|name|Vladik";
 
 

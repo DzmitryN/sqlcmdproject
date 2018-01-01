@@ -2,9 +2,7 @@ package ua.com.juja.jujasqlcmd.Controller.Command;
 
 import ua.com.juja.jujasqlcmd.View.View;
 
-/**
- * Created by Dima1 on 13.12.2017.
- */
+
 public class Help implements Command {
 
    private View view;

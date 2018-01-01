@@ -33,9 +33,7 @@ public class ClearTest {
 
     @Test
     public void testClearTable(){
-        //given
-
-        //when
+         //when
 
         command.process("Clear|user");
         //then
@@ -81,7 +79,6 @@ public class ClearTest {
             assertEquals("Формат команды 'Clear|tableName', а было введено Clear", e.getMessage());
         }
 
-       // assertFalse(canProcess);
 
     }
     @Test
@@ -95,7 +92,7 @@ public class ClearTest {
             assertEquals("Формат команды 'Clear|tableName', а было введено Clear|ret|rere", e.getMessage());
         }
 
-        // assertFalse(canProcess);
+
 
     }
 
