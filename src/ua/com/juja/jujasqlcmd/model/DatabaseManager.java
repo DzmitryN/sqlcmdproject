@@ -1,16 +1,14 @@
 package ua.com.juja.jujasqlcmd.model;
 
-import ua.com.juja.jujasqlcmd.View.View;
 
-/**
- * Created by Dima1 on 06.12.2017.
- */
+import java.util.Set;
+
 public interface DatabaseManager {
     //SELECT TABLE NAME получение списка данных из таблицы
     DataSet[] getTableData(String tableName);
 
     // SELECT LIST TABLES получаем имена таблиц базы
-    String[] getTableNames();
+    Set<String> getTableNames();
 
     //----------------------------------------------------------------------------------------------------------------
         //CONNECT TO DATABASE соединение с базой

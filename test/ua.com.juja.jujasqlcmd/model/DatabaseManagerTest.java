@@ -6,13 +6,11 @@ import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Dima1 on 24.11.2017.
- */
 public abstract class DatabaseManagerTest {
 
     protected DatabaseManager manager;
@@ -29,8 +27,8 @@ public abstract class DatabaseManagerTest {
     @Test
     public void testGetAllTableNames () {
 
-     String [] tableNames = manager.getTableNames();
-     assertEquals("[user, test]", Arrays.toString(tableNames));
+     Set<String> tableNames = manager.getTableNames();
+     assertEquals("[user, test]", tableNames.toString());
 
     }
 

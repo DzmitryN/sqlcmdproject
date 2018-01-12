@@ -7,6 +7,10 @@ import ua.com.juja.jujasqlcmd.Controller.Command.Command;
 import ua.com.juja.jujasqlcmd.Controller.Command.List;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
+;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -27,7 +31,9 @@ public class ListTest {
     @Test
     public void PrintListData(){
 
-        String [] data = new String[] {"user", "test"};
+        Set<String> data = new LinkedHashSet<String>();
+        data.add("user");
+        data.add("test");
         when(manager.getTableNames()).thenReturn(data);
         command.process("List");
         String expected = "[user, test]";

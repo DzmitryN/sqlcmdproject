@@ -3,7 +3,7 @@ package ua.com.juja.jujasqlcmd.Controller.Command;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-import java.util.Arrays;
+import java.util.Set;
 
 
 public class List implements Command{
@@ -24,8 +24,8 @@ public class List implements Command{
 
     @Override
     public void process(String command) {
-        String [] list = manager.getTableNames();
-        String message = Arrays.toString(list);
+        Set<String>  tableNames = manager.getTableNames();
+        String message = tableNames.toString();
         view.write(message);
     }
 }

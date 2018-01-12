@@ -1,13 +1,10 @@
 package ua.com.juja.jujasqlcmd.model;
 
-import ua.com.juja.jujasqlcmd.View.View;
-
 import java.sql.*;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-/**
- * Created by Dima1 on 22.11.2017.
- */
 public class JDBCDatabaseManager implements DatabaseManager {
     private Connection connection;
 
@@ -61,24 +58,23 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     // SELECT LIST TABLES получаем имена таблиц базы
     @Override
-    public String[] getTableNames(){
+    public Set<String> getTableNames(){
+        Set<String> tables = new LinkedHashSet<>();
         try ( Statement stmt = connection.createStatement();
               ResultSet rs = stmt.executeQuery("/*SELECT * FROM public.user WHERE id>2*/" +
                       "SELECT table_name FROM information_schema.tables\n"
                       + "        WHERE table_schema = 'public' AND table_type = 'BASE TABLE'"))
         {
 
-            String tables[] = new String[100];
-            int index = 0;
             while (rs.next()) {
-                tables[index++] = rs.getString("table_name");
+                tables.add(rs.getString("table_name"));
             }
-            tables = Arrays.copyOf(tables, index, String[].class);
+
             return tables;
         }
         catch (SQLException e){
             e.printStackTrace();
-            return null;
+            return tables;
         }
     }
 //----------------------------------------------------------------------------------------------------------------
