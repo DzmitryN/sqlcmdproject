@@ -8,6 +8,10 @@ import ua.com.juja.jujasqlcmd.Controller.Command.Find;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -32,7 +36,7 @@ public class FindTest {
         //given
 
         //when
-        when(manager.getTableColumns("user")).thenReturn(new String []{"id", "name", "password"});
+        when(manager.getTableColumns("user")).thenReturn(new LinkedHashSet<String>(Arrays.asList("id", "name", "password")));
 
         DataSet user1 = new DataSet();
         user1.put("id", 80);
@@ -97,7 +101,7 @@ public class FindTest {
         //given
 
         //when
-        when(manager.getTableColumns("user")).thenReturn(new String []{"id", "name", "password"});
+        when(manager.getTableColumns("user")).thenReturn(new LinkedHashSet<String>(Arrays.asList("id", "name", "password")));
 
 
         DataSet[] data = new DataSet[0];

@@ -23,7 +23,7 @@ public interface DatabaseManager {
     //UPDATE DATA TABLE апдейт записи
     void update(String tableName, int id, DataSet newValue);
 
-    String[] getTableColumns(String tableName);
+    Set<String> getTableColumns(String tableName);
 
     boolean isConnected(String command);
 }
