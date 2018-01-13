@@ -5,6 +5,7 @@ import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
+import java.util.LinkedList;
 import java.util.Set;
 
 
@@ -30,14 +31,14 @@ public class Find implements Command{
             Set<String> tableColumns = manager.getTableColumns(tableName);
             printHeader(tableColumns);
 
-            DataSet[] tableData = manager.getTableData(tableName);
+            LinkedList<DataSet> tableData = manager.getTableData(tableName);
             printTable(tableData);
 
 
 
     }
 
-    private void printTable(DataSet[] tableData) {
+    private void printTable(LinkedList<DataSet> tableData) {
 
         for(DataSet row : tableData){
             printRow(row);

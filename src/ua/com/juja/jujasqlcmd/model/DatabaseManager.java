@@ -1,11 +1,13 @@
 package ua.com.juja.jujasqlcmd.model;
 
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public interface DatabaseManager {
     //SELECT TABLE NAME получение списка данных из таблицы
-    DataSet[] getTableData(String tableName);
+    LinkedList<DataSet> getTableData(String tableName);
 
     // SELECT LIST TABLES получаем имена таблиц базы
     Set<String> getTableNames();

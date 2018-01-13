@@ -2,6 +2,7 @@ package ua.com.juja.jujasqlcmd.model;
 
 import java.sql.*;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class JDBCDatabaseManager implements DatabaseManager {
@@ -9,20 +10,17 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
     //SELECT TABLE NAME получение списка данных из таблицы
     @Override
-    public DataSet[] getTableData(String tableName){
-
+    public LinkedList<DataSet> getTableData(String tableName){
+        LinkedList<DataSet> result = new LinkedList<>();
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM public." + tableName))
         {
-            int size = getSize(tableName);
-            ResultSetMetaData rsmd = rs.getMetaData();
 
-            DataSet[] result = new DataSet[size];
-            int index = 0;
+            ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 DataSet dataset = new DataSet();
-                result[index++] = dataset;
+                result.add(dataset);
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                     dataset.put(rsmd.getColumnName(i), rs.getObject(i));
                 }
@@ -32,7 +30,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
         }
         catch(SQLException e){
             e.printStackTrace();
-            return new DataSet[0];
+            return result;
         }
     }
 

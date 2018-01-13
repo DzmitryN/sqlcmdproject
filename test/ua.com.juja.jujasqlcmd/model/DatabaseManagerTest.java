@@ -6,6 +6,7 @@ import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
@@ -46,10 +47,10 @@ public abstract class DatabaseManagerTest {
 
         manager.create("user", input);
         //then
-        DataSet[] users = manager.getTableData("user");
-        assertEquals(1, users.length);
+        LinkedList<DataSet> users = manager.getTableData("user");
+        assertEquals(1, users.size());
 
-        DataSet user = users[0];
+        DataSet user = users.get(0);
         assertEquals("[id, name, password]", Arrays.toString(user.getNames()));
         assertEquals("[13, Stiven, pass]", Arrays.toString(user.getValues()));
     }
@@ -73,10 +74,10 @@ public abstract class DatabaseManagerTest {
         manager.update("user", 13, newValue);
 
         //then
-        DataSet[] users = manager.getTableData("user");
-        assertEquals(1, users.length);
+        LinkedList<DataSet> users = manager.getTableData("user");
+        assertEquals(1, users.size());
 
-        DataSet user = users[0];
+        DataSet user = users.get(0);
         assertEquals("[id, name, password]", Arrays.toString(user.getNames()));
         assertEquals("[13, Stiven, passick]", Arrays.toString(user.getValues()));
     }

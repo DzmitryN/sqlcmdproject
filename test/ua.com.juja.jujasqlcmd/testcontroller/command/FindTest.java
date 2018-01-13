@@ -11,6 +11,7 @@ import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -48,7 +49,7 @@ public class FindTest {
         user2.put("name", "Ricko");
         user2.put("password", "000000");
 
-        DataSet[] data = new DataSet[]{user1, user2};
+        LinkedList<DataSet> data = new LinkedList<DataSet>(Arrays.asList(user1, user2));
         when(manager.getTableData("user")).thenReturn(data);
 
         command.process("Find|user");
@@ -104,7 +105,7 @@ public class FindTest {
         when(manager.getTableColumns("user")).thenReturn(new LinkedHashSet<String>(Arrays.asList("id", "name", "password")));
 
 
-        DataSet[] data = new DataSet[0];
+        LinkedList<DataSet> data = new LinkedList<DataSet>();
         when(manager.getTableData("user")).thenReturn(data);
 
         command.process("Find|user");
