@@ -3,7 +3,7 @@ package ua.com.juja.jujasqlcmd.model;
 import java.util.Arrays;
 
 
-public class DataSet {
+public class DataSet implements DataSetImpl {
 
 public static class Data{
 
@@ -27,7 +27,8 @@ public static class Data{
     public Data[] data = new Data[100];//TODO remove magic number 100
     public int freeIndex = 0;
 
-    public void put( String name, Object value) {
+    @Override
+    public void put(String name, Object value) {
 
         for (int i = 0; i < freeIndex; i++) {
             if(data[i].getName().equals(name)){
@@ -39,6 +40,7 @@ public static class Data{
     }
 
 
+    @Override
     public String [] getNames(){
         String [] result = new String[freeIndex];
         for(int i = 0; i< freeIndex; i++){
@@ -47,6 +49,7 @@ public static class Data{
         return result;
     }
 
+    @Override
     public Object[] getValues(){
         Object[] object = new Object[freeIndex];
         for(int i = 0; i< freeIndex; i++){
@@ -55,6 +58,7 @@ public static class Data{
         return object;
     }
 
+    @Override
     public Object get(String name) {
         for (int i = 0; i < freeIndex; i++) {
             if(data[i].getName().equals(name)){
@@ -64,10 +68,12 @@ public static class Data{
         return null;
     }
 
-    public void updateFrom(DataSet newValue) {
-        for (int i = 0; i < newValue.freeIndex ; i++) {
-            Data data = newValue.data[i];
-            this.put(data.name, data.value);
+    @Override
+    public void updateFrom(DataSetImpl newValue) {
+        String [] columns = newValue.getNames();
+        for(String name : columns) {
+            Object data = newValue.get(name);
+            this.put(name, data);
 
         }
     }

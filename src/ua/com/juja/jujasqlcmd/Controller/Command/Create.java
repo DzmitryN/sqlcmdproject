@@ -2,6 +2,7 @@ package ua.com.juja.jujasqlcmd.Controller.Command;
 
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
+import ua.com.juja.jujasqlcmd.model.DataSetImpl;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 public class Create implements Command {

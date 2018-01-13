@@ -7,6 +7,7 @@ import ua.com.juja.jujasqlcmd.Controller.Command.Command;
 import ua.com.juja.jujasqlcmd.Controller.Command.Find;
 import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
+import ua.com.juja.jujasqlcmd.model.DataSetImpl;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
 import java.util.Arrays;
@@ -49,8 +50,8 @@ public class FindTest {
         user2.put("name", "Ricko");
         user2.put("password", "000000");
 
-        LinkedList<DataSet> data = new LinkedList<DataSet>(Arrays.asList(user1, user2));
-        when(manager.getTableData("user")).thenReturn(data);
+       // LinkedList<DataSetImpl> data = );
+        when(manager.getTableData("user")).thenReturn(new LinkedList<DataSet>(Arrays.asList(user1, user2)));
 
         command.process("Find|user");
         //then
