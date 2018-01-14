@@ -41,6 +41,11 @@ public class DataSet implements DataSetImpl {
     }
 
     @Override
+    public int getSize(String tableName) {
+        return data.size();
+    }
+
+    @Override
     public String toString() {
         System.out.print("\n");
         return /*"DataSet " +*/

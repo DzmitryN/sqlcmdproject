@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface DatabaseManager {
     //SELECT TABLE NAME получение списка данных из таблицы
-    LinkedList<DataSet> getTableData(String tableName);
+    List<DataSet> getTableData(String tableName);
 
     // SELECT LIST TABLES получаем имена таблиц базы
     Set<String> getTableNames();

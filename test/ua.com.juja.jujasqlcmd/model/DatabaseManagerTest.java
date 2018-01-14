@@ -20,6 +20,7 @@ public abstract class DatabaseManagerTest {
         manager = getDataBaseManager();
         manager.connect("jujaproject", "posgres1", "123456");
 
+
     }
 
     protected abstract DatabaseManager getDataBaseManager();
@@ -28,7 +29,12 @@ public abstract class DatabaseManagerTest {
     @Test
     public void testGetAllTableNames () {
 
+     //given
+     manager.getTableData("user");
+     manager.getTableData("test");
+     //when
      Set<String> tableNames = manager.getTableNames();
+     //then
      assertEquals("[user, test]", tableNames.toString());
 
     }
@@ -47,7 +53,7 @@ public abstract class DatabaseManagerTest {
 
         manager.create("user", input);
         //then
-        LinkedList<DataSet> users = manager.getTableData("user");
+        LinkedList<DataSet> users = (LinkedList<DataSet>) manager.getTableData("user");
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
@@ -74,7 +80,7 @@ public abstract class DatabaseManagerTest {
         manager.update("user", 13, newValue);
 
         //then
-        LinkedList<DataSet> users = manager.getTableData("user");
+        LinkedList<DataSet> users = (LinkedList<DataSet>) manager.getTableData("user");
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);

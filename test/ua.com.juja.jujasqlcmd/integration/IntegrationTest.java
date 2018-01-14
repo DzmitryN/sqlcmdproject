@@ -196,6 +196,7 @@ public class IntegrationTest {
     public void testFindAfterConnect(){
         //given
         in.add("Connect|jujaproject|posgres1|123456");
+        in.add("Clear|user");
         in.add("Find|user");
         in.add("Exit");
         //when
@@ -204,6 +205,8 @@ public class IntegrationTest {
         assertEquals("Привет, дорогой пользователь!\r\n" +
                 "Введите имя базы данных, имя пользователя и пароль в формате connect|database|userName|password.\r\n" +
                 "Connected!\r\n" +
+                "Введи команду(или Help для помощи): \r\n" +
+                "Таблица user была успешно очищена!\r\n" +
                 "Введи команду(или Help для помощи): \r\n" +
                 "|id|name|password|\r\n" +
                 "Введи команду(или Help для помощи): \r\n" +

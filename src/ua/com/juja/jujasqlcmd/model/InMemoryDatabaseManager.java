@@ -6,27 +6,21 @@ import java.util.*;
 
 public class InMemoryDatabaseManager implements DatabaseManager {
 
-   public static final String TABLE_NAME = "user, test";
-
-    private LinkedList<DataSet> data = new LinkedList<DataSet>();
+    private Map<String, LinkedList<DataSet>> tables = new LinkedHashMap<>();
 
     @Override
-    public LinkedList<DataSet> getTableData(String tableName) {
-        validateTable(tableName);
-
-        return data;
+    public List<DataSet> getTableData(String tableName) {
+         return get(tableName);
     }
 
-    private void validateTable(String tableName) {
-        if(!"user".equals(tableName)){
-            throw new UnsupportedOperationException("Table name is user, but you`re trying to work with: " + tableName);
-        }
+    public int getSize(String tableName){
+        return get(tableName).size();
     }
 
     @Override
     public Set<String> getTableNames() {
 
-        return new LinkedHashSet<String>(Arrays.asList(TABLE_NAME));
+        return tables.keySet();
     }
 
     @Override
@@ -37,23 +31,25 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     @Override
     public void clear(String tableName) {
 
-        validateTable(tableName);
-        data.clear();
+       get(tableName).clear();
 
+    }
+    private List<DataSet>get(String tableName){
+        if(!tables.containsKey(tableName)){
+            tables.put(tableName, new LinkedList<DataSet>());
+        }
+        return tables.get(tableName);
     }
 
 
     @Override
     public void create(String tableName, DataSet input) {
-        validateTable(tableName);
-        data.add(input);
+       get(tableName).add(input);
     }
 
     @Override
     public void update(String tableName, int id, DataSet newValue) {
-        validateTable(tableName);
-
-        for (DataSet dataSet : data) {
+         for (DataSet dataSet : get(tableName)) {
             if (dataSet.get("id").equals(Integer.toString(id))) {
                 dataSet.updateFrom(newValue);
             }

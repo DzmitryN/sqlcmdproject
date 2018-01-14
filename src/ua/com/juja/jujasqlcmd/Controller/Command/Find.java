@@ -30,7 +30,7 @@ public class Find implements Command{
             Set<String> tableColumns = manager.getTableColumns(tableName);
             printHeader(tableColumns);
 
-            LinkedList<DataSet> tableData = manager.getTableData(tableName);
+            LinkedList<DataSet> tableData = (LinkedList<DataSet>) manager.getTableData(tableName);
             printTable(tableData);
 
 

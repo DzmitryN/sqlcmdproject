@@ -14,4 +14,5 @@ public interface DataSetImpl {
     Object get(String name);
 
     void updateFrom(DataSetImpl newValue);
+    int getSize(String tableName);
 }
