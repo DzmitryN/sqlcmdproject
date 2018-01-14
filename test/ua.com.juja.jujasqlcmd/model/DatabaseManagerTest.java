@@ -51,8 +51,8 @@ public abstract class DatabaseManagerTest {
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
-        assertEquals("[id, name, password]", Arrays.toString(user.getNames()));
-        assertEquals("[13, Stiven, pass]", Arrays.toString(user.getValues()));
+        assertEquals("[id, name, password]", user.getNames().toString());
+        assertEquals("[13, Stiven, pass]", user.getValues().toString());
     }
 @Test
     public void testUpdateTableData() {
@@ -78,8 +78,8 @@ public abstract class DatabaseManagerTest {
         assertEquals(1, users.size());
 
         DataSet user = users.get(0);
-        assertEquals("[id, name, password]", Arrays.toString(user.getNames()));
-        assertEquals("[13, Stiven, passick]", Arrays.toString(user.getValues()));
+        assertEquals("[id, name, password]", user.getNames().toString());
+        assertEquals("[13, Stiven, passick]", user.getValues().toString());
     }
 
     @Test

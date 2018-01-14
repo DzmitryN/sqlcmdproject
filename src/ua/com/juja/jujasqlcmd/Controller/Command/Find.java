@@ -5,8 +5,7 @@ import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DataSet;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 
 public class Find implements Command{
@@ -47,7 +46,7 @@ public class Find implements Command{
     }
 
     private void printRow(DataSet row) {
-        Object [] values = row.getValues();
+        java.util.List<Object> values = row.getValues();
         String result= "|";
         for(Object value : values){
             result += value +"|";
