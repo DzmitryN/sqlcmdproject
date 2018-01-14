@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class FindTest {
@@ -38,7 +39,8 @@ public class FindTest {
         //given
 
         //when
-        when(manager.getTableColumns("user")).thenReturn(new LinkedHashSet<String>(Arrays.asList("id", "name", "password")));
+        when(manager.getTableColumns("user"))
+                .thenReturn(new LinkedHashSet<String>(Arrays.asList("id", "name", "password")));
 
         DataSet user1 = new DataSet();
         user1.put("id", 80);
@@ -114,6 +116,24 @@ public class FindTest {
 
         String expected = "[|id|name|password|]";
         expectedOnPrint(expected);
+
+    }
+    @Test
+    public void testExceptionWhenBadCommandFormat(){
+        //given
+
+        //when
+
+
+
+        //then
+        try {
+            command.process("Find|user|resu");
+            fail("Exception expected");
+        }catch (IllegalArgumentException e){
+            assertEquals("Формат команды 'Find|tableName', а было введено Find|user|resu", e.getMessage());
+        }
+
 
     }
 }
