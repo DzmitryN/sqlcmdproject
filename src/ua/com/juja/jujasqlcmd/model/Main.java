@@ -3,9 +3,7 @@ package ua.com.juja.jujasqlcmd.model;
 import java.sql.*;
 import java.util.Arrays;
 
-/**
- * Created by Dima1 on 22.11.2017.
- */
+
 public class Main {
     public static void main(String[] argv) throws ClassNotFoundException, SQLException {
 

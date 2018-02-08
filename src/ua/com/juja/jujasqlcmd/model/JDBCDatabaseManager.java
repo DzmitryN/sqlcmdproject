@@ -87,19 +87,7 @@ public class JDBCDatabaseManager implements DatabaseManager {
 
             }
             try {
-               /* String truedatabase = "jujaproject";
-                String trueUser = "posgres1";
-                String truepassword = "123456";
-                if(!truedatabase.equals(database)){
-                    throw new SQLException("Неверное имя базы данных.");
-                } else if (!trueUser.equals(userName)) {
 
-                    throw new SQLException("Неверное имя пользователя.");
-                }
-                else if(!truepassword.equals(password)){
-                    throw new SQLException("Пароль неверен.");
-                }
-*/
                if(connection!=null){
                    connection.close();
                }

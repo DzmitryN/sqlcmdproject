@@ -5,9 +5,7 @@ import ua.com.juja.jujasqlcmd.View.View;
 import ua.com.juja.jujasqlcmd.model.DatabaseManager;
 import ua.com.juja.jujasqlcmd.model.JDBCDatabaseManager;
 
-/**
- * Created by Dima1 on 09.12.2017.
- */
+
 public class Main {
     public static void main(String[] args) {
 

@@ -16,9 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-/**
- * Created by Dima1 on 30.12.2017.
- */
+
 public class ExitWithMockitoTest {
 
     private View view = mock(View.class);
